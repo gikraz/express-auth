@@ -3,7 +3,8 @@ const userModel = require("../models/user.model");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const authRouter = Router()
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const isAuth = require("../middlewares/isAuth");
 dotenv.config()
 
 
@@ -36,6 +37,11 @@ authRouter.post('/sign-in', async (req, res) => {
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1h'})
     res.json(token)
+})
+
+authRouter.get('/current', isAuth, async (req, res) => {
+    const user = await userModel.findById(req.userId)
+    res.json(user)
 })
 
 
