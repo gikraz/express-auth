@@ -14,7 +14,7 @@ const findPostById = async (req, res) => {
 
     const post = await postModel.findById(id)
     if(!post) return res.status(400).json({message: "post not found"})
-    return post
+    res.json(post)
 }
 
 const createPost = async (req, res) => {
